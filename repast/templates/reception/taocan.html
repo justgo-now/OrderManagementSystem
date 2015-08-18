@@ -1,0 +1,79 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+        <link rel="stylesheet" type="text/css" href="/static/css/taocan.css"/>
+{% endblock %}
+{% block title %} 套餐 {% endblock %}
+
+{% block pager_js %}
+
+
+<script>
+$(function(){
+	var t = $("#num");
+	$("#reduce").click(function(){		
+		t.val(parseInt(t.val())+1)
+		setTotal();
+	})
+	$("#add").click(function(){
+		t.val(parseInt(t.val())-1)
+		setTotal();
+	})
+	function setTotal(){
+		$("#total").html((parseInt(t.val())*3.95).toFixed(2));
+	}
+	setTotal();
+    $("#to_food_list").click(function(){
+
+        window.location.href="/f/meal_list?brand_id={{brand_id}}";
+
+    });
+})
+</script>
+
+{% endblock %}
+{% block content %}
+<body style="background:#efefef; margin-bottom:110px;">
+<div class="people">
+<span class="peoplespan">人数选择</span></div>
+<div class="peopleinp">
+<input id="add" type="button" name="add" />
+<input id="num" type="text" value="1" />
+<input id="reduce" type="button" name="reduce" />
+
+</div>
+
+<div class="clear"></div>
+
+<div class="taoc">
+<span class="taocspan">套餐选择</span></div>
+<div class="taoc-ul">
+<ul>
+  {% if package_count ==0 %}
+
+   {% else %}
+     {%  for br in package %}
+       <li><a  href="/f/meal_list?package_id={{br.id}}&brand_id={{brand_id}}">{{br.name}}{{ br.suitable_number}}</a></li>
+       {% endfor %}
+    {% endif %}
+     <!--<li><a  href="/f/meal_list">午时二人套餐</a></li>-->
+     <!--<li><a  href="/f/meal_list">午时四人套餐</a></li>-->
+     <!--<li><a  href="/f/meal_list">午时六人套餐</a></li>-->
+    <!--<li><a  href="/f/meal_list">午时八人套餐</a></li>-->
+</ul>
+</div>
+<div class="clear"></div>
+<div style="background:#E1E1E1; width:100%; height:60px;" class="tcbutton">
+<div >
+    <button type="submit"  class="fl" id="to_food_list">直接点菜</button>
+    
+</div>
+
+
+</div>
+
+
+
+</body>
+{% endblock %}
+

@@ -1,0 +1,17 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*wodecss样式*/
+.mybg{ background:url(/static/images/img/wodebg.jpg) no-repeat; background-size:100% 200px; height:200px; width:100%;}
+.myimg img{ width:100px; height:100px; border:5px solid #6799B5; }
+.myimg {padding-top:25px; }
+.mytext{ background:url(/static/images/img/xinxi.png) ; background-size:100% 60px; height:60px; width:100%; margin:auto; margin-top:15px;}
+.mytext span{ float:left; width:33%; margin:auto; margin:10px 0; text-align:center;  border-left:1px solid #ccc; height:40px;}
+.mytext span p{ font-size:18px; color:#EDF7F6; font-family:"微软雅黑"; line-height:15px;}
+.list{ width:98%; margin:auto;}
+.list a{ color:#747474; font-size:16px;  height:42px;  }
+.list li{ background:url(/static/images/img/xxli.jpg) top left repeat-x; background-size:100% 42px; height:42px;  font-size:16px; line-height:45px;}
+.list li img{ width:28px; height:28px; margin:0 10px 4px 10px;}
+.xinxiright{ margin-top:4px !important;}
+.list .lt{ padding-right:10px;}
+.list .gt{ color:#6A6A6A;}
+.list .gt button{ width:34%; line-height:15px; float:right; border:none; border-radius:2px; background:#78D7D9; margin-top:3px;  height:36px;font-size:16px; color:#fff;}

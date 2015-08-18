@@ -1,0 +1,176 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/tuijian.css">
+<script type="text/javascript" src="/static/javascript/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/static/javascript/jquery.reveal.js"></script>
+
+{% endblock %}
+{% block title %} 排队 {% endblock %}
+
+{% block pager_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+           $("#tab1").click(function () {
+                $("#tab1").css("background", "#5AC3DC").children().css({color:"#e9f4f7"});
+                $("#tab2").css({background: "#E9F4F7"}).children().css({color:"#5ac3dc"});
+                $("#text1").css("display", "block");
+                $("#text2").css("display", "none");
+            });
+            $("#tab2").click(function () {
+                $("#tab1").css({background: "#E9F4F7"}).children().css({color:"#5ac3dc"});
+                $("#tab2").css("background", "#5AC3DC").children().css({color:"#e9f4f7"});
+                $("#text1").css("display", "none");
+                $("#text2").css("display", "block");
+            });
+            $("#cancelButton").click(function () {
+                if (confirm("您确定要取消排队吗？")) {
+                    window.location.href = "/q/do_cancel_queue/{{ queue.id }}?stores_id={{ queue.stores_id }}";
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    <body style="background:#E9E9E9; margin-bottom:60px !important; height: 100%; width: 100%">
+
+        <div class="des">
+            <span id="tab1" class="nav_des"
+                  style="color:#fff; background: #5AC3DC;float: left;margin-left: 1%"><b>去&nbsp;排&nbsp;队&nbsp;咯</b></span>
+            <span id="tab2" class="nav_des" style="background: #E9F4F7;float: left"><b style="color: #5AC3DC">优&nbsp;惠&nbsp;券</b></span>
+
+        </div>
+        <div id="text1">
+            <div>
+                <div class="suc_con">
+                    <span class="suc_con_left"
+                          style=" font-size: 16px;  line-height:20px; height:45px; "><b>{{ stores.name }}&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"
+                          style="font-size: 13px; height:45px; "><b>&nbsp;&nbsp;&nbsp;&nbsp;{{ queue.queue_time }}</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>餐桌类型：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ queue.table_type }}</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>前面还有：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ queue.queue_count }}人</b></span>
+                </div>
+                 <div class="suc_con">
+                    <span class="suc_con_left"><b>预计时间：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;10分钟</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>排队号：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ queue.now_queue_number }}号</b></span>
+                </div>
+
+               <div class="suc_con" style="width: 85%; margin:0 auto; padding:0; ">
+                   <span style="background:url(/static/images/img/tel2.png) no-repeat left top;text-align:left;width:90%; font-size: 15px; background-size:19px 20px; margin:auto;  line-height:30px; padding-left:3px;">
+                   <b> <a href="tel:{{stores.tel}}">{{stores.tel}}</a></b></span><br>
+                <span style="background:url(/static/images/img/id.png) no-repeat left top;text-align:left; width:90%; font-size: 15px; background-size: 18px 18px; margin:auto; line-height:30px; padding-left:3px;">
+                    <b>{{ stores.address }}</b></span>
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="desbutton">
+                <span class="des_button_sp"> <a id="cancelButton" type="button" class="btn btn-primary btn-lg"
+                                                style=" width: 80%; border:none;text-align: center">取消排队</a></span>
+                <span class="des_button_sp"> <a href="/f/package?brand_id={{ stores.brand_id }}&stores_id={{ stores.id }}" type="button" class="btn btn-primary btn-lg"
+                                                style=" border:none;width: 80%">去点菜</a></span>
+
+                <div style="clear: both">
+
+                </div>
+
+                <a href="" data-reveal-id="myModa2"  style="width:92%; margin:0 auto; display:block; height:45px; margin-left:4%; text-align:center; line-height:45px; font-size:16px; color:#FFF; border-radius:3px; font-weight:bold; background:#F90; margin-top:10px !important;" >分享给吃货们</a>
+	<div id="myModa2" class="reveal-modal" >
+                <img src="/static/images/img/guide.png" style="width:200px; height:138px;">
+        </div>
+
+
+            </div>
+        </div>
+         <div id="text2" style="display: none;margin-top: 10px !important">
+        <div class="content_list" style="background:none; height:auto; border:none; width:98%; margin:auto; margin-top:5px; " >
+	<div class="tuijiancon">
+        <script type="text/javascript">
+        $(function(){
+            var click_func = $(".tjbutton").find("a");
+            click_func.bind("click",function(){
+                var coupons_id = $(this).next().val();
+                var html_text = $(this).html();
+                if (html_text == "已领取"){
+
+                }else{
+                    var b = false;
+                    $.ajax({
+                        type: "GET",
+                        url: "/restful/coupons_id/"+coupons_id,
+                        dataType: "json",
+                        success: function (data){
+                            b = true;
+                        },
+                        error: function(){
+                            alert('error')
+                        }
+                    });
+                }
+                $(this).html("已领取")
+            })
+        })
+    </script>
+     {% if coupons_name %}
+    {% for c in coupons_name %}
+   <span class="tuijiant" style="background:url(/static/images/img/tuijiana_r1_c1_s1.jpg) no-repeat;  background-size:100% 100px; margin-bottom:5px; " >
+
+    <p style="line-height: 17px;width: 95%">
+     {% if c.present %}
+    <b style="line-height: 25px; margin-left:0; padding-left:0;">{{ c.name }}</b><br />
+
+      买<b style="padding-left:2px;">{{ c.dish_name }}</b>送<b style="padding-left:2px;">{{ c.present }}</b><br>
+        {% else %}
+        <b style="line-height: 14px; margin-left:0; padding-left:0;">{{ c.sale }}折</b><br />
+        <b style="padding-left:0;">{{ c.name }}</b><br>
+        {% endif %}
+              有效日期至:{{c.end_time}}
+    </p></span>
+
+     {% if c.total == 0 %}
+        <a class="tjbutton" style="float:right; letter-spacing: 20px;padding-left: 15px;border:none; background:url(/static/images/img/tuijiana_r5_c3_s1.png) no-repeat; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#666; display:block;">已领完</a>
+     {% else%}
+         {% if c.message == '去领取' %}
+         <span class="tjbutton" style="float:right; border:none; letter-spacing: 20px;padding-left: 15px;background:url(/static/images/img/tuijiana_r3_c2_s1.jpg) no-repeat; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#666; display:block;">
+             <a style="color:#fff;" href="#">{{ c.message }}</a>
+        <input type="hidden" name="id" value="{{ c.id }}"/>
+        </span>
+        {% else %}
+            <span class="tjbutton" style="float:right; border:none; letter-spacing: 20px;padding-left: 15px;background:url(/static/images/img/tuijiana_r5_c2_s1.jpg) no-repeat; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#666; display:block;">
+             <a >{{ c.message }}</a>
+            <input type="hidden" name="id" value="{{ c.id }}"/>
+                </span>
+                {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% else %}
+        <span class="tuijiant" style="background:url(/static/images/img/tuijiana_r3_c1_s1.jpg) no-repeat;  background-size:100% 100px; " >
+    <img src="/static/images/img/lbj_r3_c1_s1.jpg"  style="width:90px; height:90px; float:left; margin-left:4%; margin-right:10px;  margin-top:5px;" />
+            </span>
+    <p style="line-height: 17px;width: 95%">
+    <b style="line-height: 14px; margin-left:0; padding-left:0;">优惠券被抢空了！</b><br />
+    {% endif %}
+    </div>
+</div>
+        </div>
+<div class="clear"></div>
+
+     </body>
+
+{% endblock %}

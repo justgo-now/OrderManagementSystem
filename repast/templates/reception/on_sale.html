@@ -1,0 +1,75 @@
+﻿{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/css/tuijian.css"/>
+    <script type="text/javascript">
+        $(function(){
+            var click_func = $(".tjc-r").find("a");
+            click_func.bind("click",function(){
+                var coupons_id = $(this).next().val();
+                var html_text = $(this).html();
+                if (html_text == "已领取"){
+
+                }else{
+                    var b = false;
+                    $.ajax({
+                        type: "GET",
+                        url: "/restful/coupons_id/"+coupons_id,
+                        dataType: "json",
+                        success: function (data){
+                            b = true;
+                        },
+                        error: function(){
+                            alert('error')
+                        }
+                    });
+                }
+                $(this).html("已领取")
+            })
+        })
+    </script>
+{% endblock %}
+{% block title %} 优惠 {% endblock %}
+
+{% block pager_js %}
+{%endblock %}
+{% block content %}
+
+    <body style="margin-bottom: 60px; background:#e2f3ef;">
+
+    <div style="width:99%; margin:auto; margin-left:1%; margin-top:2%;">
+       {% for a in all_coupons %}
+    <div class="tjc">
+    <span class="tjc-lt">
+    <span>
+      {% if a.present %}
+           <b>{{ a.name}}</b><br>
+           <p> 买<b>{{ a.dish_name }}</b>送<b>{{ a.present }}</b><br>
+            有效日期至{{ a.end_time }}</p>
+        {% else %}
+         <b >{{ a.name}}</b><br>
+           <p class="">
+            一次性消费100元享<b style="font-size: 20px">{{ a.sale }}</b>折优惠<br>
+            有效日期至{{ a.end_time }}</p>
+        {% endif %}
+    </span>
+
+    </span>
+    <span class="tjc-r">
+    <a href="#">{{ a.message }}</a>
+    <input type="hidden" name="id" value="{{ a.id }}"/>
+
+    </span>
+    </div>
+            {% endfor %}
+        </div>
+<div class="clear"></div>
+
+
+</div>
+        
+
+
+    
+</body>
+{% endblock %}

@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.food-top{ background:#EE5174; height:45px; width:100%; color:#fff; text-align:center; line-height:45px; font-size:18px}
+.food-con{ width:97.5%; margin:1%; border:1px solid #CCC; background:#eee; height:auto;}
+.food-img{ width:98%; margin:1%;}
+.food-img img{ width:100%; }
+.food-con b{ font-size:16px; color:#f90; font-family:"微软雅黑"; padding-left:5%;}
+.food-con p{ font-size:14px; color:#666; font-family:"微软雅黑";width:96%; margin-left:2%; }
+.food-jg{ color:#f90; margin-left:3% !important; font-size:25px; font-weight:bold;}
+.fhsy{ width: 90%; margin: auto; margin:6px 0; margin-left: 5%;  display: block; height:45px; text-align: center; font-size: 18px; line-height: 45px; color: #fff; background: #5CC3D2; border: none; border-radius: 3px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

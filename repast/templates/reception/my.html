@@ -1,0 +1,56 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/css/my.css"/>
+{% endblock %}
+{% block title %} 我的信息 {% endblock %}
+{% block content %}
+<body style="margin-bottom:60px !important; background:#eee;">
+<div class="mytop">
+我的个人信息
+</div>
+<div class="myxx">
+        <p class="myxxtitle"><b>基本信息</b>（必填）</p>
+        <div class="myxx-input"><input type="text" name="textfield" onFocus="if (value =='请输入用户名'){value =''}"onblur="if (value ==''){value='请输入用户名'}"value="请输入用户名" /></div>
+        <div class="myxx-input"><input type="text"onfocus="if (value =='请输入手机号'){value =''}"onblur="if (value ==''){value='请输入手机号'}" value="请输入手机号"/></div>
+        <div class="myxx-input"><input type="text" onFocus="if (value =='请输入邮箱'){value =''}"onblur="if (value ==''){value='请输入邮箱'}"value="请输入邮箱"/></div>
+       <span  class="myxx-radio" ><input name="nv" type="radio" value=""  />男</span>
+     <span  class="myxx-radio" ><input name="nv" type="radio" value=""  />女</span>
+               <p class="age">您的年龄： </p>
+   <span  class="myxx-radio" ><input name="people" type="radio" value=""  />小孩</span>
+    <span  class="myxx-radio" ><input name="people" type="radio" value=""  />青年</span>
+       <span  class="myxx-radio" ><input name="people" type="radio" value=""  />成人</span>
+     <span  class="myxx-radio" ><input name="people" type="radio" value=""  />老人</span>
+
+</div>
+
+
+<div class="myxx2">
+<p class="myxxtitle"><b>个人口味</b>（选填）</p>
+
+                <select name="" >
+                      <option value="1">上海本帮菜</option>
+                      <option value="2">川菜</option>
+                      <option value="3">粤菜</option>
+                      <option value="4">湘菜</option>
+                      <option value="5">火锅</option>
+                      <option value="6">烧烤</option>
+                      <option value="7">特色小吃</option>
+                      <option value="8">糕点</option>
+                      <option value="9">饮料</option>
+                      <option value="10">酒水</option>
+                </select>
+                
+       <p class="age">爱辣程度： </p>         
+      <span  class="myxx-radio" ><input name="hot" type="radio" value=""  />微辣</span>
+     <span  class="myxx-radio" ><input name="hot" type="radio" value=""  />中辣</span>
+     <span  class="myxx-radio" ><input name="hot" type="radio" value=""  />变态辣</span>
+
+</div>
+
+
+<button type="button" class="mybutton">提交信息</button>
+
+</body>
+{% endblock %}
+

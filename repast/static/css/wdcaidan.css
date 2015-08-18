@@ -1,0 +1,56 @@
+﻿
+
+@charset "utf-8";
+/* CSS Document */
+
+/*我的菜单 wdcaidan   css*/
+.wdcaidan{ margin-top:8px !important;}
+.wdcd3ul-name{ width:40%;}
+.wdcd3ul-money{ width:20%;}
+.wdcd3ul-price{ width:20%;}
+.wdcd3ul-num{ width:20%;}
+.cdname{font-size:18px; font-family:"微软雅黑";line-height:35px; border-bottom:1px dashed #ccc; margin:auto; color:#333; width:88%;  padding-top:15px;}
+.wdcd3ul{ width:90%; margin:auto;}
+.wdcd3ul li{  float:left; text-align:center; font-size:15PX; font-family:"微软雅黑"; line-height:28px; color:#666;}
+.wdcaidan{ height:100%; width:99%; padding-bottom:5%; height:auto; margin:auto; background:url(/static/images//img/BGV.png) no-repeat; background-size:100% 100%;}
+.wdcaidan ul{ width:100%; height:auto; margin:auto;}
+.zong{width:85%; margin:auto; padding-top:10px !important; height:auto; font-size:15px; line-height:35px; border-top:1px dashed #ccc;}
+.song{ color:#F96; font-size:13px; line-height:15px;  margin-top:5px;}
+ .price{background:url(/static/images/img/caidan_r4_c9_s1.jpg) no-repeat; width:100px; height:30px;text-align:center; background-size:100% 100%; border:none;}
+.wdcdbutton{ width:94%; margin:0 auto;}
+.addcai{margin-left:75%; height:40px; border:0; font-size:17px; color:#fff; border-radius:3px; width:70px; background:#F75D7F;}
+.wdcdbutton button{text-align:center; width:46%; height:45px; border:#4FB7B8; margin:auto; border-radius:2px; margin-top:15px;  font-size:18px; line-height:45px; font-weight:600; color:#fff; letter-spacing:10px;}
+.reveal-modal-bg { 
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,.8);
+	z-index: 100;
+	display: none;
+	overflow:height;
+	top: 0;
+	right: 0; 
+	}
+
+.reveal-modal {
+	visibility: hidden;
+	overflow:auto;
+	top: 2px;
+	right: 2%;
+	width: 200px;
+	height:138px;
+	background: url(modal-gloss.png) no-repeat;
+	position:absolute;
+	z-index: 9999;
+	}
+	
+
+
+
+
+
+
+
+
+
+

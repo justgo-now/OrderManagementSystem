@@ -1,0 +1,230 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+	<html>
+	<head>
+	<title> new document </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="generator" content="editplus">
+	<meta name="author" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	</head>
+	<style type="text/css">
+	    *{
+	        padding:0;
+	        margin:0;
+	    }
+	    body{
+	        text-align:center;
+	    }
+	    #canvas{
+	        margin:0 auto;
+	    }
+	</style>
+	<SCRIPT>
+	<!--
+	    // ��Ҷ���
+	    var five = new Image();
+	    five.src = "/static/images/anchor.gif";
+	    five.value = 5;
+	    five.speed = 5;
+	    var ten = new Image();
+	    ten.src = "/static/images/flash.gif";
+	    ten.value = 10;
+	    ten.speed = 10;
+	    var twenty = new Image();
+	    twenty.src = "/static/images/rm.gif";
+	    twenty.value = 20;
+	    twenty.speed = 20;
+	     
+	    var heroImg = new Image();
+	    heroImg.src = "/static/images/smiley.png";
+	     
+	    var bg = new Image();
+	    bg.src = "/static/images/bg.jpg";
+	     
+	    // �����;
+	    function Money(x,y,speed,img){
+	        // û��ѭ�����ӵ�������
+	        this.speed = speed;
+	        this.x = x;
+	        this.y = y;
+	        this.width = img.width;
+	        this.height = img.height;
+	        this.img = img;
+	        this.value = img.value;
+	    }
+	    Money.prototype = {
+	        draw:function(ctx){
+	            ctx.drawImage(this.img,this.x,this.y);
+	        },
+	        move:function(){
+	            this.y += this.speed;
+	        }
+	    }
+	    // ������
+	    function Hero(x,y,img){
+	        this.grade = 0;
+	        this.life = 5;
+	        this.x = x;
+	        this.y = y;
+	        this.img = img;
+	        this.width = img.width;
+	        this.height = img.height;
+	    }
+	    Hero.prototype = {
+	        draw:function(ctx){
+	            ctx.drawImage(this.img,this.x,this.y);
+	        },
+	        touch:function(other){
+	            if( this.x + this.width > other.x && this.x < other.x + other.width &&
+	                this.y + this.height > other.y && this.y < other.y + other.height ){
+	                this.grade += other.value;
+	                return true;
+	            }
+	            return false;
+	        }
+	    }
+	    var App = {
+	        // ����
+	        elements:[],
+	        backImg:bg,
+	        imgs:[five,ten,twenty],
+	        hero:null,
+	        // ����
+	        canvas:null,
+	        // ���ƹ���
+	        context:null,
+	        // ��ʱ��
+	        timer:null,
+	        // �ٶȣ����¼��speed * 10��
+	        speed:0,
+	        pause:false,
+	        // ���ƶ���
+	        draw:function(){
+	            // ����
+	            this.context.clearRect(0,0,this.canvas.width,canvas.height);
+	            // ���Ʊ���
+	            this.context.drawImage(this.backImg,0,0);
+	            // ����������
+	            this.hero.draw(this.context);
+	            // ���ƽ��
+	            for(var i=0;i<this.elements.length;i++){
+	                var o = this.elements[i];
+	                // ������Ļ��Ķ���
+	                if(o.x > this.canvas.width || o.x < 0 || o.y > this.canvas.height || o.y < 0){
+	                    this.elements.splice(i,1);
+	                    this.hero.life--;
+	                }else if(this.hero.touch(o)){
+	                    this.elements.splice(i,1);
+	                }else{
+	                    o.draw(this.context);
+	                }
+	            }
+	            // ��������ֵ���÷�
+	            this.context.textAlign = "left";
+	            this.context.font = 'normal 10px Arial';
+	            this.context.fillStyle = "#fff";
+	            this.context.fillText("Life:" + this.hero.life,5,15);
+	            this.context.fillText("Grade:" + this.hero.grade,5,35);
+	        },
+	        // ѭ������
+	        loop:function(){
+            var me = App;
+	            if(me.pause){
+	                return;
+	            }
+	            for(var i=0;i<me.elements.length;i++){
+	                me.elements[i].move();
+	            }
+	            var chance = Math.random() * 1000;
+	            // 1/10�Ķ�����Ӹ���
+	            if(chance < 100){
+	                var img = me.imgs[parseInt(chance%me.imgs.length)];
+	                var x = Math.random()*(me.canvas.width - me.imgs[parseInt(chance%me.imgs.length)].width);
+	                var y = 0;
+	                var speed = img.speed;
+	                var money = new Money(x,y,speed,img);
+	                me.addElement(money);
+	            }
+	            me.draw();
+	            if(me.hero.life == 0){
+	                me.gameOver();
+	            }
+	        },
+	        // ��ʼ��Ϸ
+	        gameStart:function(id,speed){
+	            var me = this;
+	            me.canvas = document.getElementById(id);
+	            me.context = me.canvas.getContext("2d");
+	            me.speed = speed;
+	            me.hero = new Hero((me.canvas.width - heroImg.width)/2,me.canvas.height - heroImg.height,heroImg);
+	            if(this.timer != null) me.gameOver();
+	            me.addEventListener('touchmove',function(e){
+	                e = window.event || e;
+	                var x = e.clientX - me.canvas.offsetLeft - me.hero.width/2;
+	                 
+	                if(x > 0 && x < me.canvas.width - me.hero.width){
+	                    me.hero.x = x;
+	                }
+	            })
+	            me.timer = setInterval(me.loop,me.speed * 10);
+	        },
+	        // ��ͣ��Ϸ
+	        gamePause:function(){
+	            this.pause = true;
+	            this.context.textAlign = "center";
+	            this.context.fillStyle = "#f00";
+	            this.context.font = 'bold 50px Arial';
+	            this.context.fillText("Pause!",this.canvas.width/2,this.canvas.height/2);
+	            this.context.font = 'bold 20px Arial';
+	            this.context.fillText("Press space key to continue...",this.canvas.width/2,this.canvas.height/2 + 40);
+	        },
+	        // ������Ϸ
+	        gameOver:function(){
+	            clearInterval(this.timer);
+	            this.elements = [];
+	            this.pause = false;
+	            this.timer = null;
+	            this.context.textAlign = "center";
+	            this.context.fillStyle = "#f00";
+	            this.context.font = 'bold 40px Arial';
+	            this.context.fillText("Game Over!",this.canvas.width/2,this.canvas.height/2);
+	        },
+	        // ��Ӷ���
+	        addElement:function(o){
+	            this.elements.push(o);
+	        }
+	    }
+	     
+	    window.onload = function (){
+	        var can = $("canvas");
+	        var ctx = $("canvas").getContext("2d");
+	        ctx.drawImage(bg,0,0);
+	        ctx.drawImage(heroImg,(can.width - heroImg.width)/2,can.height - heroImg.height);
+	        ctx.textAlign = "center";
+	        ctx.fillStyle = "#f00";
+	        ctx.font = 'bold 20px Arial';
+	        ctx.fillText("Press space key to start...",can.width/2,can.height/2);
+	        can.addEventListener('touchend',function(e){
+	            if(e.keyCode != 32){
+	                return;
+	            }
+	            if(App.timer == null){
+	                App.gameStart("canvas",6);
+	            }else if(App.pause){
+	                App.pause = false;
+	            }else{
+	                App.gamePause("canvas",6);
+	            }
+	        })
+	    }
+	    function $(id){
+	        return document.getElementById(id);
+	    }
+	//-->
+	</SCRIPT>
+	<body>
+	<canvas width=320px height=480px id="canvas" style="border:1px solid #ccc;background:url('/static/images/bg.jpg')">
+	</canvas>
+	</body>
+	</html>

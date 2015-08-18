@@ -1,0 +1,50 @@
+﻿{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/css/tuijian.css"/>
+{% endblock %}
+{% block title %} 我的优惠券 {% endblock %}
+
+{% block pager_js %}
+{%endblock %}
+{% block content %}
+    <body style="margin-bottom: 60px; background:#e2f3ef;">
+    <div class="on-sale-top">
+      我领取的优惠券</div>
+
+    <div style="width:99%; margin:auto; margin-left:1%;">
+        {% if arr %}
+{% for a in arr %}
+    <div class="tjc">
+
+    <span class="tjc-lt">
+    <span>
+        {% if a.present %}
+           <b>{{ a.name}}</b><br>
+           <p> 买<b>{{ a.dish_name }}</b>送<b>{{ a.present }}</b><br>
+            有效日期至{{ a.end_time }}</p>
+        {% else %}
+         <b class="tjc-ltb">{{ a.sale}}折</b><br>
+           <p> <b>{{ a.name }}</b><br>
+            一次性消费100元享{{ a.sale }}折优惠<br>
+            有效日期至{{ a.end_time }}</p>
+
+    {% endif %}
+    </span>
+
+    </span>
+    <span class="tjc-r">
+
+        <a>{{ a.message }}</a>
+    </span>
+   
+    </div>
+{% endfor %}
+        {% else %}
+        <h1>您当前没有优惠卷</h1>
+        {% endif %}
+<div class="clear"></div>
+
+    
+</body>
+{% endblock %}

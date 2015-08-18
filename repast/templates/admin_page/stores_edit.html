@@ -1,0 +1,34 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% macro extra() %}
+
+{% endmacro %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('admin.static', filename='select2/select2.css') }}" rel="stylesheet">
+    <link href="{{ url_for('admin.static', filename='datepicker/bootstrap-datepicker.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% call lib.form_tag(form) %}
+        {{ lib.render_form_fields(form) }}
+        {{ lib.render_form_buttons(return_url, extra()) }}
+    {% endcall %}
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script src="{{ url_for('admin.static', filename='datepicker/bootstrap-datepicker.js') }}"></script>
+  <script src="{{ url_for('admin.static', filename='admin/js/form.js') }}"></script>
+<!-- 百度地图 -->
+  <script src="http://dev.baidu.com/wiki/static/skins/common/apibox.js?270"></script>
+  <script src="http://dev.baidu.com/wiki/static/skins/common/ajax.js?270"></script>
+  <script src="http://dev.baidu.com/wiki/static/skins/common/bapi.js?270"></script>
+  <script type="text/javascript" src="http://img.baidu.com/js/tangram-base-1.3.9.js"></script>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+<!-- 百度地图stop -->
+ <script src="{{ url_for('static', filename='javascript/group_view.js') }}"></script>
+ <script src="{{ url_for('static', filename='javascript/stores_view.js') }}"></script>
+{% endblock %}

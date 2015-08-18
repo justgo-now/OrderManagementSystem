@@ -1,0 +1,95 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/tuijian.css">
+{% endblock %}
+{% block title %} 排队 {% endblock %}
+
+{% block pager_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tab1").click(function () {
+                $("#tab1").css("background", "#5AC3DC");
+                $("#tab2").css("background", "#E9F4F7");
+                $("#text1").css("display", "block");
+                $("#text2").css("display", "none");
+            });
+            $("#tab2").click(function () {
+                $("#tab1").css("background", "#E9F4F7");
+                $("#tab2").css("background", "#5AC3DC");
+                $("#text1").css("display", "none");
+                $("#text2").css("display", "block");
+            });
+            $(".cancelButton").click(function () {
+                if (confirm("您确定要取消排队吗？")) {
+                    var eleParent = $(this).parent();
+                    var queue_id = eleParent.find('.queue_id').val();
+                    var stores_id = eleParent.find('.stores_id').val();
+                    window.location.href = "/q/do_cancel_queue/"+queue_id+"?stores_id="+stores_id+"&my=my";
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <body style="background:#E9E9E9;height: 100%;width: 100%">
+    {% if my_line_up_info %}
+      {% for my_line_up in my_line_up_info %}
+        <div id="text1">
+             <div>
+                <div class="suc_con">
+                    <span class="suc_con_left"
+                          style=" font-size: 16px;  line-height:20px; height:45px; "><b>{{ my_line_up.stores_name }}&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"
+                          style="font-size: 13px; height:45px; "><b>&nbsp;&nbsp;&nbsp;&nbsp;2014/4/11</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>餐桌类型：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ my_line_up.table_type }}</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>前面还有：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ my_line_up.schedule_count }}人</b></span>
+                </div>
+                 <div class="suc_con">
+                    <span class="suc_con_left"><b>预计时间：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;10分钟</b></span>
+                </div>
+                <div class="suc_con">
+                    <span class="suc_con_left"><b>排队号：&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span class="suc_con_right"><b class="suc_con_right-b">&nbsp;&nbsp;&nbsp;&nbsp;{{ my_line_up.now_queue_number }}号</b></span>
+                </div>
+
+                <div class="suc_con" style="width: 85%; margin:0 auto; padding:0; ">
+                <span style="background:url(/static/images/img/id.png) no-repeat left top;text-align:left; width:90%; font-size: 15px; background-size: 18px 18px; margin:auto; line-height: 50px; height:60px; padding-left:3px;">
+                    <b>{{ my_line_up.address }}</b></span>
+                </div>
+
+
+            </div>
+            <br>
+
+            <div class="desbutton">
+                <span class="des_button_sp">
+                    <input type="hidden" class="queue_id" value="{{ my_line_up.id }}"/>
+                    <input type="hidden" class="stores_id" value="{{ my_line_up.stores_id }}"/>
+                    <a type="button" class="cancelButton btn btn-primary btn-lg"
+                                                style=" width: 80%; border:none;text-align: center">取消排队</a></span>
+                <span class="des_button_sp"> <a href="/f/package?stores_id={{ my_line_up.stores_id }}&brand_id={{ my_line_up.brand_id }}" type="button" class="btn btn-primary btn-lg"
+                                                style=" border:none;width: 80%">去点菜</a></span>
+
+                <div style="clear: both"></div>
+            </div>
+        </div>
+      {% endfor %}
+    {% else %}
+    <h3>当前没有排队信息</h3>
+    {% endif %}
+        <div style="height: 80px">
+            &nbsp;
+        </div>
+    </body>
+
+    {% endblock %}
+

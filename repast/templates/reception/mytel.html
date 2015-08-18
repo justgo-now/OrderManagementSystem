@@ -1,0 +1,36 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/css/my.css"/>
+{% endblock %}
+{% block title %} 绑定手机 {% endblock %}
+
+{% block content %}
+<body>
+<div class="myteltop">
+填写信息绑定手机
+</div>
+<div class="mytel-select">
+ 国际区号：<select name="" >
+                      <option value="1">中国（+86）</option>
+                      <option value="2">澳大利亚（+61）</option>
+                      <option value="3">阿富汗（+93）</option>
+                      <option value="4">巴西（+55）</option>
+                      <option value="5">缅甸（+95）</option>
+                      <option value="6">柬埔寨（+855）</option>
+                      <option value="7">加拿大（+1）</option>
+                </select>
+                
+
+</div>
+        <div class="mytel-input">手机号码 :<input type="text" name="textfield" onfocus="if (value =='请输入手机号'){value =''}"onblur="if (value ==''){value='请输入手机号'}"value="请输入手机号" /></div>
+ <div class="mytel-input">确认号码 :<input type="text" name="textfield" onfocus="if (value =='请输入手机号'){value =''}"onblur="if (value ==''){value='请输入手机号'}"value="请输入手机号" /></div>
+  <div class="mytel-input">输入验证 :<input type="text" name="textfield" onfocus="if (value =='请输入手机号'){value =''}"onblur="if (value ==''){value='请输入手机号'}"value="请输入手机号" /></div>
+  <div class="mytel-input ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" name="textfield"  value="发送验证到手机" class="fsyz"/></div>
+
+
+<button type="button" class="mybutton">完成绑定</button>
+
+</body>
+{% endblock %}
+

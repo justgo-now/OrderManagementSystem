@@ -1,0 +1,351 @@
+﻿{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/css/food_list.css"/>
+{% endblock %}
+{% block title %} 菜品 {% endblock %}
+{% block pager_js %}
+
+
+<script type="text/javascript">
+       $(function(){
+            $(".add").live("click", function(){
+                var sureBtn = $("#sure-to-submit");
+                var dish_id = $(this).next().val();
+                sureBtn.removeAttr("disabled");
+                var allTotalPrice = parseInt($("#all_total_price").val());
+                var totalPrice = 0;
+                var t = $(this).parent().find('.num');
+                var num = parseInt(t.val());
+                num = num + 1;
+                t.val(num);
+                if($(this).parent().parent().find("m").length>0){
+                    totalPrice = (parseInt($(this).parent().find("n").html())-parseInt($(this).parent().parent().find("m").html()));
+                }else{
+                    totalPrice = parseInt($(this).parent().find("n").html());
+                }
+                allTotalPrice = allTotalPrice + totalPrice;
+                $("#all_total_price").val(allTotalPrice);
+                $.ajax({
+                    type: "GET",
+                    url: "/restful/add/dish?dish_id="+dish_id+"&operate=add",
+                    dataType: "text",
+                    success: function(){
+
+                    },
+                    error: function(){
+
+                    }
+                })
+            });
+           $(".reduce").live("click", function(){
+               var sureBtn = $("#sure-to-submit");
+               var allTotalPrice = parseInt($("#all_total_price").val());
+               var totalPrice = 0;
+               var t = $(this).parent().find('.num')
+               var num = parseInt(t.val())
+               if (num>0){
+                   sureBtn.removeAttr("disabled");
+                   num = num -1;
+                   if($(this).parent().parent().find("m").length>0){
+                       totalPrice = (parseInt($(this).parent().find("n").html())-parseInt($(this).parent().parent().find("m").html()));
+                   }else{
+                       totalPrice = parseInt($(this).parent().find("n").html());
+                   }
+               }else {
+                   num = 0;
+                   totalPrice = 0;
+               }
+               if (num == 0 && allTotalPrice <= 0){
+                   sureBtn.attr("disabled","disabled");
+               }
+               var dish_id = $(this).prev().prev().val();
+               if (num != 0){
+                   $.ajax({
+                    type: "GET",
+                    url: "/restful/add/dish?dish_id="+dish_id+"&operate=reduce",
+                    dataType: "text",
+                    success: function(){
+
+                    },
+                    error: function(){
+
+                    }
+                })
+               }
+               t.val(num)
+               allTotalPrice = allTotalPrice - totalPrice;
+               $("#all_total_price").val(allTotalPrice);
+           });
+           function init_dish(){
+
+               var right = $('#hot')
+               var kind_id = $(".cd-left").next().val()
+               $.ajax({
+                   type: 'get',
+                   url: '/services/get_foods/'+ kind_id,
+                   dataType: 'json',
+                   success:function(data){
+                       right.empty();
+                       var total = data.total;
+                       var id_array = data.dish_by_package;
+                       $.each(data.dish,function(i,value){
+                           if (id_array.indexOf(value.id) != -1){
+                                var number = value.number;
+                               right.append(
+                                   '<div class="hot-food">'+
+                                           '<ul>'+
+                                           '<li class="hot-food-img"><img src="'+value.rel_path+'/'+value.picture_name+'"></li>'+
+                                           '<li class="hot-food-text">'+
+                                           '<p>'+
+                                           '<ul>'+
+                                           '<li class="food-name">'+value.name+'</li>'+
+                                           '<li><a class="hot-zs"> 送</a></li>'+
+                                           '</ul>'+
+                                           '</p>'+
+                                           ' <div class="clear"></div>'+
+                                           '<span>'+
+                                           '<a class="money">￥<n>'+value.price+'</n></a>'+
+                                           '<input class="add" type="button" name="add"/>'+
+                                           '<input type="hidden" name="id" class="dish_id" value="'+value.id+'"/>'+
+                                           '<input class="num" type="text" value="'+number+'"/>'+
+                                           '<input class="reduce" type="button" name="reduce"/>'+
+                                           '</span>'+
+                                           '</li>'+
+                                           '</ul>'+
+                                           ' </div>');
+                           }else{
+                               right.append(
+                                   '<div class="hot-food">'+
+                                           '<ul>'+
+                                           '<li class="hot-food-img"><img src="'+value.rel_path+'/'+value.picture_name+'"></li>'+
+                                           '<li class="hot-food-text">'+
+                                           '<p>'+
+                                           '<ul>'+
+                                           '<li class="food-name">'+value.name+'</li>'+
+                                           '<li><a class="hot-zs"> 送</a></li>'+
+                                           '</ul>'+
+                                           '</p>'+
+                                           ' <div class="clear"></div>'+
+                                           '<span>'+
+                                           '<a class="money">￥<n>'+value.price+'</n></a>'+
+                                           '<input class="add" type="button" name="add"/>'+
+                                           '<input type="hidden" name="id" class="dish_id" value="'+value.id+'"/>'+
+                                           '<input class="num" type="text" value="0"/>'+
+                                           '<input class="reduce" type="button" name="reduce"/>'+
+                                           '</span>'+
+                                           '</li>'+
+                                           '</ul>'+
+                                           ' </div>');
+                           }
+
+                       });
+                       $("#all_total_price").val(total)
+                       var submitBtn = $("#all_total_price").val();
+                       var sureBtn = $("#sure-to-submit");
+                       if (submitBtn == 0){
+                           sureBtn.attr("disabled", "disabled")
+                       }else{
+                           sureBtn.removeAttr("disabled");
+                       }
+                   }
+               })
+           }
+            init_dish();
+             $(".cd-left").bind("click", function(){
+                 $(this).prevAll().removeClass('cd_click');
+                 $(this).addClass('cd_click');
+                 $(this).nextAll().removeClass('cd_click');
+                 var this_id = $(this).next().val();
+                 var package = '{{ package }}';
+                 var food_url =  '/services/get_foods/'+ this_id;
+                 if (package == ''){
+                     food_url =  '/services/get_foods/'+ this_id
+                 }else{
+                     food_url =  '/services/get_foods/'+ this_id+'?package_id={{ package.id }}'
+                 }
+                 var right = $('#hot');
+                 $.ajax({
+                     type: 'get',
+                     url: food_url,
+                     dataType: 'json',
+                     success:function(data){
+                         right.empty();
+                         var total = data.total;
+                         var id_array = data.dish_by_package;
+                         $.each(data.dish,function(i,value){
+                             if (id_array.indexOf(value.id) != -1){
+                                 var number = value.number;
+                               right.append(
+                                   '<div class="hot-food">'+
+                                           '<ul>'+
+                                           '<li class="hot-food-img"><img src="'+value.rel_path+'/'+value.picture_name+'"></li>'+
+                                           '<li class="hot-food-text">'+
+                                           '<p>'+
+                                           '<ul>'+
+                                           '<li class="food-name">'+value.name+'</li>'+
+                                           '<li><a class="hot-zs"> 送</a></li>'+
+                                           '</ul>'+
+                                           '</p>'+
+                                           ' <div class="clear"></div>'+
+                                           '<span>'+
+                                           '<a class="money">￥<n>'+value.price+'</n></a>'+
+                                           '<input class="add" type="button" name="add"/>'+
+                                           '<input type="hidden" name="id" class="dish_id" value="'+value.id+'"/>'+
+                                           '<input class="num" type="text" value="'+number+'"/>'+
+                                           '<input class="reduce" type="button" name="reduce"/>'+
+                                           '</span>'+
+                                           '</li>'+
+                                           '</ul>'+
+                                           ' </div>');
+                           }else{
+                               right.append(
+                                   '<div class="hot-food">'+
+                                           '<ul>'+
+                                           '<li class="hot-food-img"><img src="'+value.rel_path+'/'+value.picture_name+'"></li>'+
+                                           '<li class="hot-food-text">'+
+                                           '<p>'+
+                                           '<ul>'+
+                                           '<li class="food-name">'+value.name+'</li>'+
+                                           '<li><a class="hot-zs"> 送</a></li>'+
+                                           '</ul>'+
+                                           '</p>'+
+                                           ' <div class="clear"></div>'+
+                                           '<span>'+
+                                           '<a class="money">￥<n>'+value.price+'</n></a>'+
+                                           '<input class="add" type="button" name="add"/>'+
+                                           '<input type="hidden" name="id" class="dish_id" value="'+value.id+'"/>'+
+                                           '<input class="num" type="text" value="0"/>'+
+                                           '<input class="reduce" type="button" name="reduce"/>'+
+                                           '</span>'+
+                                           '</li>'+
+                                           '</ul>'+
+                                           ' </div>');
+                           }
+                         });
+                     }
+                 })
+             });
+
+              $("#sure-to-submit").click(function(){
+
+        window.location.href="/f/to_dish_selected?package_id={{ package_id }}&brand_id={{ brand_id }}";
+
+    });
+       })
+
+
+</script>
+
+
+{% endblock %}
+{% block content %}
+    <body style=" margin-bottom:60px;margin:0; padding:0; font-family:'微软雅黑'; ">
+    <div style="height:auto;width:20%;position:fixed; top:0; left:0; float:left; background:#CDCDCD;border:1px solid #eee;">
+        {% if dish_sort %}
+        {% set count = 1 %}
+          {% for dis in dish_sort %}
+        {% if count == 1 %}
+          <div class=" cd_click cd-left">{{dis.name}}</div>
+        {% else %}
+          <div class="cd-left">{{dis.name}}</div>
+        {% endif %}
+        {% set count = count + 1 %}
+          <input type="hidden" value="{{dis.id}}" name="id"/>
+          {% endfor %}
+        {% else %}
+         <div class="cd-left" id="none_button">暂无分类</div>
+        {% endif %}
+        <!--<div class="cd-left" id="cold_button">冷菜</div>-->
+        <!--<div class="cd-left" id="food_button">主食</div>-->
+        <!--<div class="cd-left" id="drink_button">饮料</div>-->
+        <!--<div class="cd-left" id="cake_button">点心</div>-->
+        <!--<div class="cd-left" id="sweet_button">甜品</div>-->
+        <!--<div class="cd-left" id="soup_button">汤羹</div>-->
+        <!--<div class="cd-left" id="discount_button">优惠</div>-->
+
+             </div></div>
+
+    <div style="width:79%;float:left;margin-left:21%;" id="right">
+        <div id="hot" style="display:block">
+
+
+
+
+        </div>
+        <div style="height:160px;"></div>
+          <div class="checkout">
+        {% if package %}
+        <a>套餐名称：<a>{{package.name}}</a></a><br>
+        {% else %}
+        <a>套餐名称：<a>非套餐</a></a><br>
+        {% endif %}
+
+        <a>总额：￥<input id ="all_total_price" value="0" type="text" style="background:url(/static/images/img/caidan_r4_c9_s1.jpg) no-repeat; text-align: center; color:#FF9A62; width:60px; margin-left:6px; background-size:100% 100%; border:none; height:30px;" readOnly></a>
+       <div class="clear"></div>
+        <button type="submit" id="sure-to-submit" class="sure-to-submit">确定</button>
+    </div>
+
+    </div>
+
+
+<style>
+.myfoodbtn{ width:60px; height:40px; background:#f90; color:#fff; border:none; position:fixed; border-radius:50%; bottom:15%; left:0; line-height:40px; text-align:center;}
+	.myfood-con{ width:80%;  background:#FFF; position:fixed; top:0; left:20%; }
+	.myfood-con ul{ width:100%;}
+    .myfood-con ul li{ float:left; line-height:20px; margin:10px 0;  color:#f90;font-size:18px; }
+    .myfood-span1{ width:50%;  text-align:center;}
+    .myfood-span2{ width:25%;  text-align:center;}
+     .myfood-span3{ width:25%;  text-align:center;}
+    .color0{ color:#000 !important;}
+</style>
+
+<div class="myfood-con" id="box" style="display:none">
+   <ul>
+       <li class="myfood-span1 color0" >菜名</li>
+        <li class="myfood-span2 color0" >价格</li>
+        <li class="myfood-span3 color0" >数量</li>
+   </ul>
+    </div>
+<input name="" type="button"  value="已选"  id="btn"  class="myfoodbtn" >
+
+
+
+ <script type="text/javascript">
+     var btn=$('#btn');
+     var box1=$('#box');
+     btn.bind("click", function(){
+         var thisVal = $(this).val();
+         if (thisVal == "已选"){
+             $.ajax({
+                 type: "get",
+                 url: "/restful/get/choose/dish",
+                 dataType: "json",
+                 success: function(data){
+                     box1.empty();
+                     $.each(data, function(i, value){
+                         box1.append('<ul>' +
+                             '<li class="myfood-span1" >'+ value.name +'</li>' +
+                             ' <li class="myfood-span2" >'+ value.price +'</li>' +
+                             '<li class="myfood-span3" >'+ value.number +'</li>' +
+                             '</ul>')
+                     });
+                 }
+             });
+             box1.show();
+             $(this).val("隐藏");
+         } else {
+             box1.hide();
+             $(this).val("已选");
+         }
+     });
+</script>
+
+
+
+
+    </body>
+<script>
+
+</script>
+{% endblock %}

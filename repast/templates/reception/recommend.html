@@ -1,0 +1,61 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block title %} 推荐 {% endblock %}
+
+{% block pager_js %}
+
+{% endblock %}
+
+{% block content %}
+    <body style="background:#E9E9E9;">
+
+    <div id="des">
+        <ul id="nav_des">
+            <a href="#">
+                <li><b>去排队咯</b></li>
+            </a>
+            <a href="#">
+                <li><b>等不及了</b></li>
+            </a>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="number2">3</div>
+    <div id="content">
+        <div class="content_list">
+            <form name="queueForm" action="/q/do_queue">
+                <input type="hidden" name="stores_id" value="{{ stores.id }}"/>
+                <input type="hidden" name="user_id" value="{{ user_id }}"/>
+
+                <div class="destop">
+                    <b>{{ stores.name }}</b>
+                </div>
+                <div class="zhuoxing">
+                    <ul class="zhuoxingul">
+                        {% for t in temp %}
+                            <li>
+                                <ul class="zhuoxingul2">
+                                    <li><label><input name="table_type_id" type="radio" value="{{ t.id }}"/>&nbsp;{{ t.type }}
+                                    </label></li>
+                                    <li>前面还有{{ t.queue_number }}位</li>
+                                    <li>预计时间5分钟</li>
+                                </ul>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                <div class="button">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">去排队</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </body>
+
+{% endblock %}
+

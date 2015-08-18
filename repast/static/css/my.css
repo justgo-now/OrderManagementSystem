@@ -1,0 +1,36 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.mytop{ width:100%; height:45px; background:#5cc3d2; line-height:45px; color:#fff; font-size:18px; text-align:center; font-family:"微软雅黑";}
+.myxx{ width:96%; margin:auto; margin:2% !important; background:#FFF; padding-left:3%; }
+.myxxtitle{ font-size:16px; color:#039; font-family:"微软雅黑"; line-height:30px;}
+.myxxtitle b{ font-size:18px; font-family:"微软雅黑";}
+.myxx-input input{border:1px solid #ccc; border-radius:3px; height:35px; width:90%; padding-left:5%; color:#999; font-size:16px; margin-bottom:2%;}
+.myxx-radio{ width:96%; margin-left:2%; font-size:18px; color:#F90;}
+.myxx-radio input{ width:20px; height:20px; margin-right:2px; }
+.myxx2{ width:96%; margin:auto; margin-left:2% !important; background:#FFF; padding-left:3%; }
+.myxx2 select{ width:95%; height:35px; padding-left:5%; margin-bottom:2%; border:1px solid #ccc;  border-radius:3px; font-size:16px; color:#666;}
+.age{ font-size:18px; line-height:40px; color:#666;}
+.mybutton{ width:90%; margin-left:5%; color:#fff; margin-top:3%; border-radius:2px;  font-size:20px; font-family:"微软雅黑"; height:45px; line-height:45px; letter-spacing:5px;}
+
+.myteltop{ width:100%; height:45px; background:#5cc3d2; line-height:45px; color:#fff; font-size:18px; text-align:center; font-family:"微软雅黑";}
+.mytel-input{ width:96%; margin-left:2%; }
+.mytel-input input{border:1px solid #ccc; border-radius:3px; height:35px; width:55%; margin-left:2%; margin-top:2%; padding-left:5%; color:#999; font-size:16px; margin-bottom:2%;}
+.mytel-select{ width:96%; margin-left:2%; margin-top:2%;  font-size:16px; }
+.mytel-select select{ width:60%; height:35px; padding-left:5%; margin-bottom:2%; border:1px solid #ccc;  border-radius:3px; font-size:16px; color:#666;}
+.fsyz{ width:60% !important; padding:0 !important; text-align:center; background:#F90; color:#FFF !important; border:1px solid #FC0 !important;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

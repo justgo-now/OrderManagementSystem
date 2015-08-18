@@ -1,0 +1,32 @@
+﻿@charset "utf-8";
+/* CSS Document */
+ html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+                margin: 0;
+                padding: 0;
+  }
+*{margin:0px;padding:0px; font-family:"微软雅黑";}
+ body{font:12px "微软雅黑","Arial Narrow",HELVETICA; background:#E9E9E9; margin-bottom:60px;}
+  .mt10{ margin-top:10px;}  
+a{text-decoration:none !important;}
+ul,li{list-style:none;}
+img{border:0 none;}
+button{border:0 none; background:#5CC3D2; border-radius:2px;}
+.fl{float:left; display:inline;}
+.fr{float:right; display:inline;}
+.clear{clear:both; }
+
+.foot{ width:100%; height:55px; margin:0 auto; position:fixed; bottom:0; left:0; background:#F4F4F4;}
+.footInner{ float:left; width:20%; margin:auto; height:55px; padding-top:5px;}
+.footInneron{ background:#EBFDFF; float:left; width:20%; margin:auto; height:55px; padding-top:5px;}
+.footInner .footInner-a1{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r1_c1_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInner .footInner-a2{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r1_c3_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInner .footInner-a3{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r1_c5_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInner .footInner-a4{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r1_c7_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInner .footInner-a5{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r1_c9_s1.png) no-repeat top center; background-size:30px 45px;}
+
+
+.footInneron .footInner-a1on{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r3_c1_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInneron .footInner-a2on{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r3_c3_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInneron .footInner-a3on{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r3_c5_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInneron .footInner-a4on{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r3_c7_s1.png) no-repeat top center; background-size:30px 45px;}
+.footInneron .footInner-a5on{ margin:auto; height:55px;display:block; background:url(/static/images/img/homefoot_r3_c9_s1.png) no-repeat top center; background-size:30px 45px;}

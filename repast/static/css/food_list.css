@@ -1,0 +1,37 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+a{ color:#FF9A62; font-size:16px;}
+	.cd-left{ height:auto; background:url(/static/images/img/caidan_r1_c1_s1.jpg); background-size:100% 100%; font-size:16px; color:#666; line-height:20px; padding:5px 0; font-family:"微软雅黑"; text-align:center; }
+    .cd_click{ background: url(/static/images/img/caidan_r4_c9_s1.jpg); background-size: 100% 100%;}
+	.hot-food{ height:110px; width:100%; display:block; background:url(/static/images/img/caidan_r1_c5_s1.jpg) repeat-x left top; background-size:100% 100%; margin:0; padding:0; }
+	.hot-food ul{ margin:0; padding:0;}
+	.hot-food span{ width:100%;}
+	.hot-food li{ float:left; height:110px;}
+	.money{ line-height:30px; width:55px; float:left; height:50px;}
+	.hot-food p{line-height:60px; width:100%; font-size:16px; color:#666;}
+	/*.hot-zs{ margin-right:10%; width:35px; padding-left:20px !important; float:right; height:60px; background:url(/static/images/img/jiacai_r4_c3_s1.jpg) no-repeat center right; background-size:15px 25px; display:block;   }*/
+	/*.hot-money{ line-height:60px; float:right; margin-right:20%;}*/
+	.hot-food-img{ width:110px; height:110px;}
+	/*.hot-food-text{ height:110px; width:55%; margin:0; padding:0;}*/
+	/*.hot-food-text input{ margin-top:5px; width:30px; float:right; height:30px; margin:0 1%; text-align:center; color:#999; font-weight:bold;}*/
+	.hot-food-img img{ width:88px; height:90px; margin:10px; }
+    .add{ background:url(/static/images/img/caidan_r4_c7_s1.jpg) no-repeat; background-size:100% 100%; border:none;}
+	.num{ background:url(/static/images/img/caidan_r4_c9_s1.jpg) no-repeat; background-size:100% 100%; border:none; height:30px;}
+	.reduce{ background:url(/static/images/img/caidan_r4_c11_s1.jpg) no-repeat; background-size:100% 100%; border:none;}
+	.checkout{ width:100%; position:fixed; left:21%; bottom:55px; height:auto; background:#fff; padding-left:5%;}
+	.checkout button{ border:#5FC3CF; width:70%; margin:0 auto; height:40px; color:#fff; margin-top:5px; margin-bottom:5px;}
+	.checkout a{ line-height:25px;}
+
+	
+	
+
+
+	.hot-zs{ margin-right:2%; width:40px;  float:right; height:60px; background:url(/static/images/img/jiacai_r4_c3_s1.jpg) no-repeat top right; background-size:15px 25px; display:block; font-size:15px;  }
+	.hot-money{ line-height:20px; font-size:15px; float:right; margin-right:2%;}
+	/*.hot-food-img{ width:110px; height:110px;}*/
+	.hot-food-text{ height:110px; width:55%; margin:0; padding:0;}
+	.hot-food-text p{ width:100%; margin:0; padding:0;}
+	.hot-food-text li{ font-size:15px; height:50px; width:50%; float:left; margin-top:3%;}
+	.food-name{ line-height:20px;}
+	.hot-food-text input{ margin-top:5px; width:20px; float:right; height:20px; margin:0 1%; text-align:center; color:#999; font-weight:bold;}

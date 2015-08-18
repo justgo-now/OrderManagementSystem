@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=0;">
+ 
+<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+<script type="text/javascript" src="./js/touch.js"></script>
+ <script type="text/javascript" src="./js/zepto.extend.js"></script>
+ <script type="text/javascript" src="./js/zepto.ui.js"></script>
+ <script type="text/javascript" src="./js/slider.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
+<script src="/static/javascript/show_toolbar.js"></script>
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+       var btn = $('.dian3');
+//        btn.bind('click', function(){
+//           window.location.href = '/to_search'
+//        });
+        var queue = "{{ message }}";
+        if (queue != ""){
+            alert(queue);
+        }
+    });
+</script>
+<title>选桌型</title>
+</head> 
+<style>
+</style>
+<body style="background:#EFF2F5;">
+
+<div class="top" style="margin-bottom:0;">
+<h3>{{ stores.name }}</h3>
+</div>
+<div class="xuanze">
+<form name="queueForm" action="/q/do_queue">
+    <input type="hidden" name="stores_id" value="{{ stores.id }}"/>
+    <input type="hidden" name="user_id" value="{{ user_id }}"/>
+<ul>
+{% for t in temp %}
+<li style="background:#E9E9E9; height:40px; width:100%; margin:auto;"> 
+<ul class="xuanzeli">
+<li class="linka" style="width: 5%"><input type="radio" checked name="table_type_id" value="{{ t.id }}"/></li>
+<li>{{ t.type }}</li>
+<li>前面还有{{ t.queue_number }}位</li>
+<li>预计5分钟</li>
+</ul>
+</li>
+{% endfor %}
+
+
+<!--推荐-->
+<li style="padding:0; margin:10px 0;">
+<div id="tuijian">
+<ul>
+{% if stores %}
+    <li class="fl" style="width:40%; padding-left:2%;"><img src="{{ stores.image_url }}" width="100px" height="100px"/></li>
+    <li class="fl" style="width:55%; margin-left:10px;"><p><b>{{ stores.name }}</b><br /><br />{{ stores.description }}</p></li>
+{% else %}
+    <li class="fl" style="width:40%; padding-left:2%;"><img src="/static/images/stores/img.jpeg" /></li>
+    <li class="fl" style="width:55%; margin-left:10px;"><p><b></b><br /><br /></p></li>
+{% endif %}
+<li style=" margin:auto; padding-right:0 !important; width:100%; ">  
+  <button type="button"  class="dian3" >进入餐厅</button>
+</li>
+
+</ul>
+</div>
+</li>
+<!--推荐结束-->
+
+<li style="padding-left:6px; ">  
+  <button type="submit"  class="dian3" >确&nbsp;&nbsp;定</button>
+</li>
+
+</ul>
+</form>
+</div>
+
+</body>
+</html>
+

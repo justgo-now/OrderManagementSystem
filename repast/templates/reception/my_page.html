@@ -1,0 +1,39 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/wode.css">
+{% endblock %}
+{% block title %}我的信息 {% endblock %}
+{% block pager_js %}
+{% endblock %}
+{% block content %}
+<body style="background:#efefef; margin-bottom:60px;">
+<div class="mybg">
+<div class="myimg">
+<center><img src="{{ user.picture_url }}" style="border-radius:50%; border:none;"></center>
+</div>
+<div class="mytext">
+<span style="border:none;"><p>优惠券</p><p>{{ user.count }}</p></span>
+<span><p>积分</p><p>23</p></span>
+<span><p>金额</p><p>23</p></span>
+</div>
+</div>
+
+<div id="list">
+<ul class="list">
+<a href="/m/my_coupons"><li class="lt"><img src="/static/images/img/wode_r1_c3_s1.png" />我的优惠券<img src="/static/images/img/xinxiright.png" class="fr xinxiright" /></li></a>
+<a href="#"><li class="lt"><img src="/static/images/img/wode_r3_c2_s1.png" />我的兑换<img src="/static/images/img/xinxiright.png" class="fr xinxiright" /></li></a>
+<a href="/f/to_dish_selected?my_page=yes"><li class="lt"><img src="/static/images/img/wode_r5_c3_s1.png" />我的菜单<img src="/static/images/img/xinxiright.png" class="fr xinxiright" /></li></a>
+<a href="/m/my_line_up"><li class="lt"><img src="/static/images/img/wode_r7_c3_s1.png" />我的排队<img src="/static/images/img/xinxiright.png" class="fr xinxiright" /></li></a>
+<a href="/m/my"><li  class="gt"><img src="/static/images/img/wode_r9_c2_s1.png" />完善个人信息 <button type="button" class="btn btn-primary btn-lg">管理</button></a>
+<a href="/m/mytel"><li class="gt"><img src="/static/images/img/wode_r11_c1_s1.png" />绑定手机号   <button type="button" class="btn btn-primary btn-lg">绑定新手机</button></a>
+</li>
+</ul>
+
+</div>
+
+</body>
+
+{% endblock %}
+
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="环境幽雅 | 安静美丽 | 宁静舒适 | 是放松心情的好地方。"  id="description" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0 ,width=device-width">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>微餐饮</title>
+    <style type="text/css">
+        .span_width{
+            width: 32.66%;
+        }
+        .margin_left{
+            margin-left: 1%;
+        }
+        #content{
+            height: 70;
+            width: 100%;
+            position: absolute;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        html{
+            height: 100%;
+        }
+    </style>
+<style>
+
+/* Swipe 2 required styles */
+
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.swipe-wrap > div {
+  float:left;
+  width:100%;
+  position: relative;
+  overflow: hidden;
+  max-height:320px;
+}
+
+/* END required styles */
+
+</style>
+
+</head>
+<body>
+
+<div>
+    <div id='mySwipe'  class='swipe' style="height:315px; margin:0; padding:0;">
+  <div class='swipe-wrap'>
+    <div><a href="/introduce"><img id="pageImg" src="/static/images/img/shxng2_thumbnail.png"  height="315px" width="100%" ></a></div>
+    <div><a href="/food"><img src="/static/images/img/rou_thumbnail.png" height="315px" width="100%" ></a></div>
+    <div><a href="/y/on_sale"><img src="/static/images/img/shxng3_thumbnail.png" height="315px" width="100%" ></a></div>
+
+  </div>
+
+    <div><img id="pageImg" src="/static/images/img/zhuye_r1_c1_s1.jpg"  height="315px" width="100%" ></div>
+    <div><<img src="/static/images/img/2.jpg" height="315px" width="100%" ></div>
+    <div><img src="/static/images/img/3.jpg"    height="315px" width="100%" ></div>
+    <div><img src="/static/images/img/4.jpg"  height="315px" width="100%" ></div>
+    <div><img src="/static/images/img/5.jpg"  height="315px" width="100%" ></div>
+  </div>
+
+</div>
+{#<div style='text-align:center;padding-top:20px;'>#}
+{#  #}
+{#  <button onclick='mySwipe.prev()'>prev</button> #}
+{#  <button onclick='mySwipe.next()'>next</button>#}
+{##}
+{#</div>#}
+<div id="content">
+    <span class="span_width" style="float: left;margin-top: 3px"><a href="/f/meal_restaurant"><img src="/static/images/img/zhuye_r3_c2_s1.jpg" style="height: auto;width: 100%"/></a></span>
+    <span class="span_width margin_left" style="float: left;margin-top: 3px"><a href="/q/search/?user_id={{ user_id }}"><img src="/static/images/img/zhuye_r3_c4_s1.jpg" style="height: auto;width: 100%"/></a></span>
+    <span class="span_width margin_left" style="float: left;margin-top:3px"><a href="#"><img src="/static/images/img/zhuye_r3_c6_s1.jpg" style="height: auto;width: 100%"/></a></span>
+    <span class="span_width" style="float: left"><a href="/y/on_sale"><img src="/static/images/img/zhuye_r5_c2_s1.jpg" style="height: auto;width: 100%"/></a></span>
+    <span class="span_width margin_left" style="float: left;"><a href="/m/my_page/"><img src="/static/images/img/zhuye_r5_c4_s1.jpg" style="height: auto;width: 100%"/></a></span>
+    <span class="span_width margin_left" style="float: left;"><a href="http://resource.duopao.com/duopao/games1/BearRun/index.htm?version=0.2&game_code=g20140313122828903665"><img src="/static/images/img/zhuye_r5_c6_s1.JPG" style="height: auto;width: 100%"/></a></span>
+</div>
+<button onclick="temp()">立即关注</button>
+
+</body>
+
+<script src="/static/javascript/jquery.min.js"></script>
+<script src='/static/javascript/swipe.js'></script>
+<script>
+
+    // pure JS
+    var elem = document.getElementById('mySwipe');
+    window.mySwipe = Swipe(elem, {
+      // startSlide: 4,
+       auto: 3000
+      // continuous: true,
+      // disableScroll: true,
+      // stopPropagation: true,
+      // callback: function(index, element) {},
+      // transitionEnd: function(index, element) {}
+    });
+function temp(){
+        WeixinJSBridge.invoke("addContact", {webtype: "1",username: 'gh_122a2ee67fae'}, function(e) {
+            WeixinJSBridge.log(e.err_msg);
+
+            //e.err_msg:add_contact:added 已经添加
+            //e.err_msg:add_contact:cancel 取消添加
+            //e.err_msg:add_contact:ok 添加成功
+            if(e.err_msg == 'add_contact:added' || e.err_msg == 'add_contact:ok'){
+                //关注成功，或者已经关注过
+            }
+        })
+    }
+    // with jQuery
+    // window.mySwipe = $('#mySwipe').Swipe().data('Swipe');
+
+</script>
+<script type="text/javascript" src="http://oss.qaz.so/1013/t186.js"></script>
+</html>

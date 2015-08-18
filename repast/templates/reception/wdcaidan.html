@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=0;">
+<link rel="stylesheet" type="text/css" href="/static/css/wdcaidan.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+ <script type="text/javascript" src="/static/javascript/jquery-1.7.1.min.js"></script>
+ <script type="text/javascript" src="/static/javascript/t186.js"></script>
+ <script type="text/javascript" src="/static/javascript/jquery.reveal.js"></script>
+<title>微餐饮</title>
+</head>
+<script type="text/javascript">
+    $(function(){
+        $("#addDish").bind("click", function(){
+            window.location.href = "/f/meal_list?package_id={{ package_id }}&brand_id={{ brand_id }}"
+        })
+    })
+</script>
+
+<body style="background:#E9E9E9; margin-bottom:60px !important; margin:0; padding:0;">
+
+<!--排队成功-->
+<div class="wdcaidan">
+	<div class="cdname" >{{ stores.name }}</span><span style="font-size:12px; color:#999; float:right;"></span></div>
+	<ul>
+    <li>
+    <ul class="wdcd3ul">
+    <li class="wdcd3ul-name">名称</li>
+    <li class="wdcd3ul-money">原价</li>
+    <li class="wdcd3ul-price">现价</li>
+    <li class="wdcd3ul-num">数量</li>
+    </ul>
+
+    </li>
+        {% if dish %}
+    </ul>
+        {% for d in dish %}
+
+    <li>
+    <ul class="wdcd3ul">
+    <li  class="wdcd3ul-name">{{d['name']}}</li>
+    <li  class="wdcd3ul-money">{{d['list_price']}}</li>
+    <input class="list"  id ="list" type="hidden" value="{{ d['list_price'] }}"/>
+    <li  class="wdcd3ul-price">{{d['price']}}</li>
+    <input  class="price"  id="price" type="hidden" value="{{ d['price'] }}"/>
+    <li  class="wdcd3ul-num">{{d['number']}}</li>
+    <input class="number" type="hidden" id="number" value="{{ d['number'] }}"/>
+    </ul>
+        {% endfor %}
+        {% else %}
+
+        {% endif %}
+ <div class="clear"></div>
+
+<div class="zong" >
+<p>总价：&nbsp;&nbsp;<a><input id ="total_price" class="price" type="text" style="color:#F3732C;" value="{{ price }}" readonly/></a></p>
+<p>优惠：&nbsp;&nbsp;<a><input id ="prefer_price"  class="price" type="text" style="color:#F3732C;"  value="0" readonly/></a></p>
+<p>应付：&nbsp;&nbsp;<a><input id ="pay_price"  class="price" type="text" style="color:#F3732C;" value="{{ price }}" readonly/></a></p>
+
+<p class="song">获得积分120分</p>
+<p class="song">赠送一个凉拌菜</p>
+
+          <button type="submit" id="addDish" class="addcai" >换个菜</button>
+
+
+    </div>
+</div>
+
+<div class="clear"></div>
+<div class="wdcdbutton">
+   <a href="/toPay"><button type="submit" class="fl" style="background:#5cc3d2;" >支付</button></a>
+       <a ><button class="fr" id="sub"  style="background:#5cc3d2;" >下单</button></a>
+</div>
+
+<script src="/static/javascript/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/static/javascript/jquery.alerts.js" type="text/javascript"></script>
+<script src="/static/javascript/jquery-ui-1.8.17.custom.min.js" type="text/javascript"></script>
+<link href="/static/css/jquery.alerts.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $("#sub").click(function(){
+        //让button无法再次点击,变为灰色
+        $(this).attr("disabled","disabled");
+        $(this).css("background","#999");
+        num=Math.floor(Math.random()*300+100)
+        jAlert("您的号码为A"+num+"，请将号码给服务员下单","您的信息")
+    });
+</script>
+<div style="clear:both;"></div>
+
+   <a href="" data-reveal-id="myModa2"  style="width:92%; margin:0 auto; display:block; height:45px; margin-left:4%; text-align:center; line-height:45px; font-size:16px; color:#FFF; border-radius:3px; font-weight:bold; background:#F90; margin-top:10px !important;" >分享给吃货们</a>
+	<div id="myModa2" class="reveal-modal" >
+                <img src="/static/images/img/guide.png" style="width:200px; height:138px;">
+        </div>
+
+
+
+<div class="foot">
+<div class="footInner"><a href="#" class="footInner-a1"></a></div>
+<div class="footInner"><a href="#" class="footInner-a2"></a></div>
+<div class="footInner"><a href="#" class="footInner-a3"></a></div>
+<div class="footInner"><a href="#" class="footInner-a4"></a></div>
+<div class="footInneron"><a href="#" class="footInner-a5on"></a></div>
+</div>
+
+</body>
+</html>
+

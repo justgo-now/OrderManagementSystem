@@ -1,0 +1,237 @@
+{% extends "reception/web_base.html" %}
+{% block head %}
+        {{ super() }}
+          <style>
+            .search-con{ width:97%; margin:1%; border:1px solid #eee !important; background-color:#fff;}
+            .search-con P{ MARGIN: 0; PADDING:0;}
+        .search-conl{ float:left; width:30%; margin: 1% 1% 1% 2%;}
+        .search-conr{ float:right; margin:1%; width:65%;}
+        .search-conr-name{padding:0; font-size:15px; font-family:"微软雅黑"; color:#F90; line-height:25px; }
+        .search-conr-name2{ font-size:14px; font-family:"微软雅黑"; color:#5CC3D2; }
+        .search-conr-dizhi{margin-bottom:.4em !important;  color:#5cc3d2; font-size:14px; font-family:"微软雅黑"; background:url(/static/images/img/img_r1_c4.png) no-repeat ; padding-left:20px !important;}
+        .search-conr-telphone{ color:#5cc3d2;  font-size:14px; font-family:"微软雅黑"; background:url(/static/images/img/tel.png) no-repeat;  padding-left:20px !important;}
+        .search-button{ width:96%; height:45px; margin:auto; border-radius:3px;  color:#FFF; font-size:18px; line-height:45px; margin:1% 2% 2% 2%;}
+        </style>
+{% endblock %}
+{% block title %} 餐厅列表 {% endblock %}
+{% block pager_js %}
+<script type="text/javascript">
+$(function () {
+    var g_belong_province_id = 9;
+    var g_belong_city_id = '';
+    var g_belong_country_id = '';
+    var block = $('.btn-block');
+    block.bind('click', function () {
+        window.location.href = '/reservation'
+    });
+    var searchBtn = $(".search-button");
+    searchBtn.live('click', function(){
+       var idS = $(this).next().val() // 得到下一个元素的值，餐厅id
+       var brand_id = $(this).next().next().val();
+       window.location.href = '/f/package?brand_id='+ brand_id+'&stores_id='+idS;
+    });
+
+    function positonStore() {
+        var province = $('#province_id').val();
+        var city = $('#city_id').val();
+        var country = $('#country_id').val();
+        var latitude = {{ latitude }};
+        var longitude = {{ longitude }};
+        $.ajax({
+            type: 'get',
+            url: '/restful/positionStoreXY?province=' + province + '&city=' + city + '&country=' + country + '&latitude=' + latitude + '&longitude=' + longitude,
+            dataType: 'json',
+            success: function (data) {
+                if(data.stores == null || data.stores == ''){
+                    $('#result').append('<div class="topps2"><p>没有找到相应的餐厅，您可以<a href="/f/meal_search_position">通过地区选择</a>！</p></div>');
+                }
+                else{
+                    $('#result').empty();
+                    var mark_queue = "{{ mark_queue }}";
+                    var prompt = '去排队';
+                    $.each(data.stores, function (idx, item) {
+                            $('#result').append(
+                                  '<div class="search-con">' +
+                                    '<span class="search-conl"><img src="'+item.picture_name+'" width="100%"  /></span>' +
+                                    '<span class="search-conr">' +
+                                    '<b class="search-conr-name">' +item.name+ '</b>' +
+                                    '<p class="search-conr-dizhi"><a class="search-conr-name2" href="/location?longitude='+item.longitude+'&latitude='+item.latitude+'">地址：'+ item.address +'</a></p>' +
+                                    '<p class="search-conr-telphone"><a class="search-conr-name2" href="tel:'+item.tel+'">电话：'+item.tel+'</a></p>' +
+                                    '</span>' +
+                                    '<button type="button" class="search-button">去点餐</button>' +
+                                    '<input type="hidden" name="idS" value="'+item.id+'"/>'+
+                                    '<input type="hidden" name="barnd" value="'+item.brand_id+'"/>'+
+
+                                    '</div>'
+                                        );
+
+
+
+                    });
+
+                }
+            }
+        })
+
+    }
+
+
+    //定义省份change事件
+    var province = $("#province_id");
+    province.bind('change', function () {
+        var province_val = province.val();
+        get_city(province, province_val, '', '');
+        var city_val = $("#city_id");
+        get_country(province, city_val, city_val.val(), "");
+        positonStore();
+    });
+    //定义城市cahnge事件
+    var city = $("#city_id");
+    city.bind('change', function () {
+        get_country(province, city, city.val(), "");
+        positonStore();
+    });
+    var country = $("#country_id");
+    country.bind('change', function () {
+        positonStore();
+    });
+
+    function init_location(init_province, init_city, init_country) {
+        var province = $('#province_id');
+        $.ajax({
+            type: "GET",
+            url: "/restful/province",
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (json) {
+                province.empty();
+                $.each(json, function (i, value) {
+                    if (g_belong_province_id == value[0]) {
+                        $("#province_id").append($("<option>").text(value[1]).attr('value', value[0]).attr('selected', 'selected'));
+                    } else {
+                        $("#province_id").append($("<option>").text(value[1]).attr('value', value[0]));
+                    }
+                });
+                province.val(init_province);
+                g_belong_province_id = init_province;
+            },
+            error: function () {
+                {#                alert("获取省资料失败，请刷新网页！");#}
+            }
+        });
+        get_city(province, init_province, init_city, init_country)
+
+    }
+
+    // 如果是新建的话，这几个id是不存在的，无法获取，使用默认参数
+
+    if (g_belong_province_id != "") {
+        init_location(g_belong_province_id, g_belong_city_id, g_belong_country_id)
+    } else {
+        init_location("9", "", "")
+    }
+    positonStore();
+    function get_city(province, init_province, init_city, init_country) {
+        var city = $('#city_id');
+        $.ajax({
+            type: "GET",
+            url: "/restful/city/" + init_province,
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (json) {
+                city.empty().append($("<option>").text('市/县').attr('value', '0').attr('selected', 'selected'));
+                $.each(json, function (i, value) {
+                    if (g_belong_city_id == value[0]) {
+                        $("#city_id").append($("<option>").text(value[1]).attr('value', value[0]));
+                    } else {
+                        $("#city_id").append($("<option>").text(value[1]).attr('value', value[0]));
+                    }
+
+                });
+                if (init_city != '') {
+                    city.val(init_city);
+                    g_belong_city_id = init_city;
+                }
+            },
+            error: function () {
+                {#                    alert("获取市资料失败，请刷新网页！");#}
+            }
+        });
+        get_country(province, city, init_city, init_country)
+    }
+
+    function get_country(province, city, init_city, init_country) {
+        var country = $('#country_id');
+        $.ajax({
+            type: "GET",
+            url: "/restful/country/" + init_city,
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (json) {
+                country.empty().append($("<option>").text('区').attr('value', '0').attr('selected', 'selected'));
+                if (json.length == 0) {
+                    $("#country_id").append($("<option>").text("").attr('value', "0"));
+                } else {
+                    $.each(json, function (i, value) {
+                        if (g_belong_country_id == value[0]) {
+                            $("#country_id").append($("<option>").text(value[1]).attr('value', value[0]));
+                        } else {
+                            $("#country_id").append($("<option>").text(value[1]).attr('value', value[0]));
+                        }
+                    });
+                    if (init_country != "") {
+                        country.val(init_country);
+                        g_belong_country_id = init_country;
+                    }
+                }
+            },
+            error: function () {
+                //alert("当前城市没有区！");
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
+{% block content %}
+<body style="background:#EFF2F5; font-family:'微软雅黑';">
+<div class="toptitle">
+<b>您身边的餐饮助手</b>
+</div>
+<!--搜索框-->
+{#<div id="search">#}
+
+{#    <input id="text" type="text" style="border-radius:12px;" class="noneinput" placeholder="请输入关键字"/></div>#}
+{#<div class="sou"><a href="#" id="searchButton"><img src="/static/images/stores/sou.png"/></a></div>#}
+<!--搜索框结束-->
+<!--地区--->
+<div class="id" style="display: none">
+    <div class="idbg">
+        <span>
+             <select name='province_id' id='province_id' style="width: 30%">
+
+             </select>
+
+             <select name='city_id' id='city_id' style="width: 30%">
+                 <option value=0 selected>市/县</option>
+             </select>
+             <select name='country_id' id='country_id' style="width: 30%">
+                 <option value=0 selected>区</option>
+             </select>
+        </span>
+    </div>
+</div>
+<div class="topps"><p>您现在的位置是：<t style=" font-size:14px; color:#fff;">{{ description }}</t></p></div>
+<div id="result">
+</div>
+
+<!--搜索框结果-->
+<div style="height: 80px">
+    &nbsp;
+</div>
+
+</body>
+{% endblock %}

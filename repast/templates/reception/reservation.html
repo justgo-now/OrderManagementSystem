@@ -1,0 +1,174 @@
+﻿{% extends "reception/web_base.html" %}
+{% block head %}
+    {{ super() }}
+        <link rel="stylesheet" href="/static/css/tuijian.css">
+
+{% endblock %}
+{% block title %} 排队 {% endblock %}
+
+{% block pager_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tab1").click(function () {
+                $("#tab1").css("background", "#5AC3DC").children().css({color:"#e9f4f7"});
+                $("#tab2").css({background: "#E9F4F7"}).children().css({color:"#5ac3dc"});
+                $("#text1").css("display", "block");
+                $("#text2").css("display", "none");
+            });
+            $("#tab2").click(function () {
+                $("#tab1").css({background: "#E9F4F7"}).children().css({color:"#5ac3dc"});
+                $("#tab2").css("background", "#5AC3DC").children().css({color:"#e9f4f7"});
+                $("#text1").css("display", "none");
+                $("#text2").css("display", "block");
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <body style="background:#E9E9E9; height: 100%; width:100%; margin-bottom:60px !important;">
+    <div class="des">
+        <span id="tab1" class="nav_des"
+              style="background: #5AC3DC;float: left;margin-left: 1%"><b>去&nbsp;排&nbsp;队&nbsp;咯</b></span>
+        <span id="tab2" class="nav_des" style="background: #E9F4F7;float: left;color: #5AC3DC"><b style="color: #5AC3DC">等&nbsp;不&nbsp;及&nbsp;了</b></span>
+    </div>
+
+    <div class="clear"></div>
+    <div class="number2">{{ count  }}</div>
+
+    <div id="text1" class="content_list" style=" margin-top: 5px !important;background:url(/static/images/img/topbg2_s1.jpg);display:block;background-position: initial initial;background-repeat: repeat no-repeat" >
+    <div id="content">
+        <div class="content_list" style="border: none; " >
+            <form name="queueForm" action="/q/do_queue">
+                <input type="hidden" name="stores_id" value="{{ stores.id }}"/>
+                <input type="hidden" name="user_id" value="{{ user_id }}"/>
+                <div class="destop">
+                    <b>{{ stores.name }}</b>
+                </div>
+                <div class="zhuoxing">
+                    <ul class="zhuoxingul">
+                        {% for t in temp %}
+                            <li>
+                                <ul class="zhuoxingul2">
+                                    <li class="zhuoxingul2-li1"><label><input name="table_type_id" type="radio" value="{{ t.id }}" checked/>&nbsp;{{ t.type }}
+                                    </label></li>
+                                    <li class="zhuoxingul2-li2">前面还有<a style=" color:#f90; font-size:15px;">{{ t.queue_number }}</a>位</li>
+                                    <li class="zhuoxingul2-li3">预计等<a style=" color:#f90; font-size:15px;">90</a>分钟</li>
+                                </ul>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                <div class="button">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">去排队</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <div id="text2" style="display: none;margin-top: 10px !important">
+        <div class="content_list" style="background:none; height:auto; border:none; width:98%; margin:auto; margin-top:5px; " >
+	<div class="tuijiancon">
+    <li><span class="tuijiant" style="background:url(/static/images/img/tuijiana_r1_c1_s1.jpg) no-repeat;  background-size:100% 100px; margin-bottom:5px; " >
+    <img src={{  stores.picture_url  }}  style="width:50px; height:50px; float:left; margin-left:4%; margin-right:3px;  margin-top:15px;" />
+    <p style="line-height: 17px;width: 73%; float:right; ">
+    {% if another_stores %}
+    <b style="line-height: 14px; margin-left:0; padding-left:0;">{{ another_stores.name }}</b><br />
+       {{ another_stores.description }}<br />
+    {{ another_stores.brand }}<br />
+            人均消费100元
+    </p></span>
+
+    <a class="tjbutton"  href="{{ another_stores.id }}" style="float:right; border:none;text-align:center;padding: 18px; background:url(/static/images/img/tuijiana_r1_c2_s1.jpg) no-repeat; background-size:100% 100px; width:20%; height:100px; display:block;">去排队</a></li>
+   {% else %}
+        <b style="line-height: 14px; margin-left:0; padding-left:0;">没有同类餐厅</b><br /></li>
+    {% endif %}
+
+     <li><span class="tuijiant" style="background:url(/static/images/img/tuijiana_r1_c1_s1.jpg) no-repeat;  background-size:100% 100px; margin-bottom:5px; " >
+    <img src={{  stores.picture_url  }}  style="width:50px; height:50px; float:left; margin-left:4%; margin-right:3px;  margin-top:15px;" />
+    <p style="line-height: 17px;width: 73%; float:right; ">
+    {% if not_brand %}
+    <b style="line-height: 14px; margin-left:0; padding-left:0;">{{ not_brand.name }}</b><br />
+       {{ not_brand.description }}<br />
+    {{ not_brand.brand }}<br />
+            人均消费100元
+    </p></span>
+
+    <a class="tjbutton"  href="{{ not_brand.id }}" style="float:right; border:none;text-align:center;padding: 18px; background:url(/static/images/img/tuijiana_r1_c2_s1.jpg) no-repeat; background-size:100% 100px; width:20%; height:100px; display:block;">去排队</a></li>
+    {% endif %}
+
+    <script type="text/javascript">
+        $(function(){
+            var click_func = $(".tjbutton").find("a");
+            click_func.bind("click",function(){
+                var coupons_id = $(this).next().val();
+                var html_text = $(this).html();
+                if (html_text == "已领取"){
+
+                }else{
+                    var b = false;
+                    $.ajax({
+                        type: "GET",
+                        url: "/restful/coupons_id/"+coupons_id,
+                        dataType: "json",
+                        success: function (data){
+                            b = true;
+                        },
+                        error: function(){
+                            alert('error')
+                        }
+                    });
+                }
+                $(this).html("已领取")
+            })
+        })
+    </script>
+    {% if coupons_name %}
+    {% for c in coupons_name %}
+    <span class="tuijiant" style="background:url(/static/images/img/tuijiana_r3_c1_s1.jpg) no-repeat;  background-size:100% 100px; margin-bottom:5px; " >
+
+    <p style="line-height: 25px;width: 90%">
+     {% if c.present %}
+    <b style="line-height: 25px; margin-left:0; padding-left:0;">{{ c.name }}</b><br />
+
+      买<b style="padding-left:2px;">{{ c.dish_name }}</b>送<b style="padding-left:2px;">{{ c.present }}</b><br>
+        {% else %}
+        <b style="line-height: 14px; margin-left:0; padding-left:0;">{{ c.sale }}折</b><br />
+        <b style="padding-left:0;">{{ c.name }}</b><br>
+        {% endif %}
+              有效日期至:{{c.end_time}}
+    </p></span>
+     {% if c.total == 0 %}
+        <a  class="tjbutton" style="float:right; border:none; letter-spacing: 20px; padding-left: 15px; background:url(/static/images/img/tuijiana_r5_c3_s1.png) no-repeat; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#666; display:block;">已领完</a>
+     {% else%}
+        {% if c.message == '去领取' %}
+         <span class="tjbutton" style="float:right; border:none; padding-left: 15px; background:url(/static/images/img/tuijiana_r3_c2_s1.jpg) no-repeat; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#fff; display:block;">
+             <a style="letter-spacing: 20px; color: #fff;"  href="#">{{ c.message }}</a>
+        <input type="hidden" name="id" value="{{ c.id }}"/>
+        </span>
+        {% else %}
+            <span class="tjbutton" style="float:right; border:none; background:url(/static/images/img/tuijiana_r5_c2_s1.jpg) no-repeat; padding-left: 15px; TEXT-ALIGN: CENTER; PADDING-TOP:15PX; background-size:100% 100px; width:20%; height:100px; color:#666; display:block;">
+             <a style="letter-spacing: 20px;" >{{ c.message }}</a>
+            <input type="hidden" name="id" value="{{ c.id }}"/>
+                </span>
+                {% endif %}
+
+         {% endif %}
+    {% else %}
+    <b style="line-height: 14px; margin-left:0; padding-left:0;">优惠券被抢空了！</b><br />
+
+       {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+        </div>
+<div class="clear"></div>
+     </body>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% macro extra() %}
+
+{% endmacro %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('admin.static', filename='select2/select2.css') }}" rel="stylesheet">
+    <link href="{{ url_for('admin.static', filename='datepicker/bootstrap-datepicker.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <ul class="nav nav-tabs">
+      <li>
+          <a href="{{ return_url }}">{{ _gettext('列表') }}</a>
+      </li>
+      <li class="active">
+          <a href="javascript:void(0)">{{ _gettext('创建') }}</a>
+      </li>
+	</ul>
+
+  {% call lib.form_tag(form) %}
+      {{ lib.render_form_fields(form) }}
+      {{ lib.render_form_buttons(return_url, extra()) }}
+  {% endcall %}
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script src="{{ url_for('admin.static', filename='datepicker/bootstrap-datepicker.js') }}"></script>
+  <script src="{{ url_for('admin.static', filename='admin/js/form.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/group_view.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/brand_view.js') }}"></script>
+{% endblock %}
