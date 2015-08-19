@@ -1,0 +1,11 @@
+basically:
+pip install flask
+
+Image module install with pip(someone said using pillow instead, but here failed):
+pip install PIL --allow-external PIL --allow-unverified PIL
+
+some extern module of flask:
+pip install flask-admin(flask-login, flask-restful)
+
+others:
+jsonpickle, wtforms, sqlalchemy, 
