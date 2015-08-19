@@ -9,6 +9,8 @@ from ..util.ex_password import generate_password
 from ..util.ex_time import todayfstr
 from .base_class import InitUpdate
 
+import datetime
+
 
 class AdminUser(Base, InitUpdate):
     """ 对应于数据库的user表格
@@ -46,7 +48,9 @@ class AdminUser(Base, InitUpdate):
     def __init__(self, **kwargs):
         self.init_value(('name', 'admin'), kwargs)
         self.init_none(('stores_id',), kwargs)
-        self.sign_up_date = todayfstr()
+        # self.sign_up_date = todayfstr()
+        # sqlite : datetime format seems not fitting the sqlalchemy DATETIME type. so change to skip the format
+        self.sign_up_date = datetime.datetime.now()
         self.password = self._set_password(kwargs.pop('password'))
 
     def update(self, **kwargs):
