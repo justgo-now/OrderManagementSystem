@@ -299,28 +299,25 @@ def to_meal_restaurant_list():
         user_id = get_session_user()
     mark_queue = get_session_mark_queue()
     if user_id:
-        latitude = get_user_by_id(user_id).latitude
-        longitude = get_user_by_id(user_id).longitude
-        des = get_user_by_id(user_id).description
-        if des:
-            description = des[:-12]
-        else:
-            description = ''
-        if latitude and longitude:
-            return render_template('reception/meal_list.html',
-                                   latitude=latitude,
-                                   longitude=longitude,
-                                   description=description,
-                                   mark_queue=mark_queue,
-                                   user_id=user_id)
-        else:
-            return render_template('reception/un_meal_list.html',
-                                   mark_queue=mark_queue,
-                                   user_id=user_id)
-    else:
-        return render_template('reception/un_meal_list.html',
-                               mark_queue=mark_queue,
-                               user_id=user_id)
+        user_item = get_user_by_id(user_id)
+        if user_item:
+            latitude = get_user_by_id(user_id).latitude
+            longitude = get_user_by_id(user_id).longitude
+            des = get_user_by_id(user_id).description
+            if des:
+                description = des[:-12]
+            else:
+                description = ''
+            if latitude and longitude:
+                return render_template('reception/meal_list.html',
+                                       latitude=latitude,
+                                       longitude=longitude,
+                                       description=description,
+                                       mark_queue=mark_queue,
+                                       user_id=user_id)
+    return render_template('reception/un_meal_list.html',
+                           mark_queue=mark_queue,
+                           user_id=user_id)
 
 
 def to_package_list():
